@@ -17,12 +17,12 @@ export default new Router({
     //   path: '/',
     //   component: login
     // },
+    // {
+    //   path: '/',
+    //   component: index
+    // },
     {
       path: '/',
-      component: index
-    },
-    {
-      path: '/permission',
       component: permission,
       children: [
         {
@@ -36,10 +36,11 @@ export default new Router({
         {
           path: '/permission/user',
           component: permissionUser
-        }, {
-          path: '',
-          redirect: '/permission/menu'
         }
+        // , {
+        //   path: '',
+        //   redirect: '/permission/menu'
+        // }
       ]
     },
     {
