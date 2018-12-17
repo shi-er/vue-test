@@ -67,7 +67,7 @@
 <script>
 
   export default {
-    name: 'index',
+    name: 'permission',
     data() {
       return {
         leftMenuStatu: true,

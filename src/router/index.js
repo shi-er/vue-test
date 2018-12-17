@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import welcome from '../components/welcome'
 import customList from '../components/customList'
+import login from '../components/login'
 import permission from '../components/authorization/permission/permission';
 import permissionMenu from '../components/authorization/permission/permissionMenu';
 import roleMenu from '../components/authorization/rolePermission/roleMenu';
@@ -11,7 +12,7 @@ import userInfoMenu from '../components/userCenter/user/userInfoMenu';
 import loginMenu from '../components/userCenter/userLogin/loginMenu';
 
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
