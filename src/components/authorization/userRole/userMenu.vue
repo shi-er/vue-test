@@ -6,9 +6,9 @@
         <el-form-item style="float: right;">
           <el-button type="primary" @click="getData" icon="el-icon-search">查询</el-button>
         </el-form-item>
-      <el-form-item style="float: right;">
-        <el-input placeholder="手机号" v-model="mobile"/>
-      </el-form-item>
+        <el-form-item style="float: right;">
+          <el-input placeholder="手机号" v-model="mobile"/>
+        </el-form-item>
       </el-form>
     </el-col>
 
@@ -95,7 +95,6 @@
         this.getData();
       },
       getData() {
-        // 会自动判断当前是开发还是生产环境，然后自动匹配API_HOST
         let url = process.env.API_HOST + 'basic/role/user/getList?page=' + this.currentPage + '&size=' + this.pageSize;
         axios.get(url,
           qs.stringify({})).then((response) => {
@@ -108,19 +107,7 @@
       getCurrentDateTime(date) {
         return moment(date).format('YYYY-MM-DD HH:mm:ss')
       },
-      //角色编辑
-      handleEdit(data) {
-
-      },
-      //编辑权限
-      handleEditPermission(id) {
-
-      },
-      //用户编辑
-      handleEditUser(id) {
-
-      },
-      //删除角色
+      //删除
       handleDelete(id) {
 
       }

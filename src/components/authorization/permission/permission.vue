@@ -78,19 +78,19 @@
             subMenus: [{
               title: '权限管理',
               icon: "",
-              component: '/authorization/menu'
+              component: '/authorization/permission/menu'
             },
               {
                 title: '角色管理',
                 icon: "",
-                component: '/authorization/role'
+                component: '/authorization/rolePermission/menu'
               },
               {
                 title: '用户角色',
                 icon: "",
-                component: '/authorization/user'
+                component: '/authorization/userRole/menu'
               }]
-          }
+          },
         ],
         msg: 'Copyright © 2018 十二',
         openMenus: ['首页'], // 记录打开了的菜单名称，用于寻找第几个菜单

@@ -24,7 +24,7 @@
       :data="rows"
       style="width: 100%">
       <el-table-column
-        label="权限id">
+        label="id">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
