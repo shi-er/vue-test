@@ -6,6 +6,10 @@ import permission from '../components/authorization/permission/permission';
 import permissionMenu from '../components/authorization/permission/permissionMenu';
 import roleMenu from '../components/authorization/rolePermission/roleMenu';
 import userMenu from '../components/authorization/userRole/userMenu';
+import bankCardMenu from '../components/userCenter/bankCard/bankCardMenu';
+import userInfoMenu from '../components/userCenter/user/userInfoMenu';
+import loginMenu from '../components/userCenter/userLogin/loginMenu';
+
 
 Vue.use(Router)
 
@@ -35,6 +39,18 @@ export default new Router({
         {
           path: '/authorization/userRole/menu',
           component: userMenu
+        },
+        {
+          path: '/userCenter/bankCard/menu',
+          component: bankCardMenu
+        },
+        {
+          path: '/userCenter/userInfo/menu',
+          component: userInfoMenu
+        },
+        {
+          path: '/userCenter/login/menu',
+          component: loginMenu
         }
         // , {
         //   path: '',

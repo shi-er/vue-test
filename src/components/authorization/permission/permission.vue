@@ -92,12 +92,20 @@
               }]
           },
           {
-            title: '用户信息',
+            title: '用户中心',
             icon: "",
             subMenus: [{
-              title: '权限管理',
+              title: '用户管理',
               icon: "",
-              component: '/authorization/permission/menu'
+              component: '/userCenter/userInfo/menu'
+            }, {
+              title: '登录记录',
+              icon: "",
+              component: '/userCenter/login/menu'
+            }, {
+              title: '银行卡',
+              icon: "",
+              component: '/userCenter/bankCard/menu'
             }]
           }
         ],

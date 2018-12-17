@@ -127,11 +127,14 @@
 </template>
 
 <script>
-    export default {
-        name: "bankCardMenu"
-    }
+  export default {
+    name: "userInfoMenu",
+
+  }
 </script>
 
 <style scoped>
-
+  .hrefCss {
+    cursor: pointer;
+  }
 </style>
