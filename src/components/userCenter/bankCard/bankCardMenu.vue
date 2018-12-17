@@ -7,16 +7,10 @@
           <el-button type="primary" @click="getData" icon="el-icon-search">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-select v-model="type" placeholder="请选择类型">
-            <el-option label="菜单" value="0"></el-option>
-            <el-option label="功能" value="1"></el-option>
-          </el-select>
+          <el-input placeholder="手机号" v-model="mobile"/>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-input placeholder="权限code" v-model="permCode"/>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" v-on:click="addNewProject({})" icon="el-icon-plus">添加</el-button>
+          <el-input placeholder="卡号" v-model="cardNo"/>
         </el-form-item>
       </el-form>
     </el-col>
@@ -24,59 +18,86 @@
       :data="rows"
       style="width: 100%">
       <el-table-column
-        label="id">
+        label="ID">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="PID">
+        label="用户ID">
         <template slot-scope="scope">
-          <span>{{scope.row.pid}}</span>
+          <span>{{scope.row.uid}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="名称">
+        label="用户名">
         <template slot-scope="scope">
-          <span>{{ scope.row.title }}</span>
+          <span>{{scope.row.accountName}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="类型">
+        label="手机号">
         <template slot-scope="scope">
-          <span v-if="scope.row.type===0">菜单</span>
-          <span v-else>功能</span>
+          <span>{{scope.row.contactMobile}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="身份证号">
+        <template slot-scope="scope">
+          <span>{{scope.row.idNumber}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="卡号">
+        <template slot-scope="scope">
+          <span>{{ scope.row.cardNo }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="卡类型">
+        <template slot-scope="scope">
+          <span v-if="scope.row.cardType===1">借记卡</span>
+          <span v-if="scope.row.cardType===2">贷记卡</span>
+          <span v-if="scope.row.cardType===3">准贷记卡</span>
+          <span v-if="scope.row.cardType===4">其他</span>
+        </template>
+
+      </el-table-column>
+      <el-table-column
+        label="卡名称">
+        <template slot-scope="scope">
+          <span>{{ scope.row.cardName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="银行名称">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bankName }}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.state===1" style="color: mediumblue">正常</span>
+          <span v-if="scope.row.status===1" style="color: mediumblue">正常</span>
           <span v-else style="color: red">禁用</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="地址">
-        <template slot-scope="scope">
-          <span>{{scope.row.url}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="权限code">
-        <template slot-scope="scope">
-          <span>{{scope.row.permcode}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="排序">
-        <template slot-scope="scope">
-          <span>{{scope.row.sort}}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="描述">
         <template slot-scope="scope">
-          <span>{{scope.row.description}}</span>
+          <span>{{ scope.row.description }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="添加时间">
+        <template slot-scope="scope">
+          <span>{{getCurrentDateTime(scope.row.createTime)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="修改时间">
+        <template slot-scope="scope">
+          <span>{{getCurrentDateTime(scope.row.modifyTime)}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" min-width="171">
@@ -85,26 +106,6 @@
             size="mini"
             type="primary"
             @click="addNewProject(scope.row)"><i class="el-icon-edit"></i>编辑
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i>删除
-          </el-button>
-          <el-button
-            size="mini"
-            type="success"
-            @click="handleSetSort(scope.row.id,scope.row.sort,0)"><i class="el-icon-caret-top"></i>置顶
-          </el-button>
-          <el-button
-            size="mini"
-            type="success"
-            @click="handleSetSort(scope.row.id,scope.row.sort,1)"><i class="el-icon-caret-top"></i>上移
-          </el-button>
-          <el-button
-            size="mini"
-            type="warning"
-            @click="handleSetSort(scope.row.id,scope.row.sort,2)"><i class="el-icon-caret-bottom"></i>下移
           </el-button>
         </template>
       </el-table-column>
@@ -127,9 +128,71 @@
 </template>
 
 <script>
-    export default {
-        name: "bankCardMenu"
-    }
+  import axios from 'axios';
+  import qs from 'qs';
+  import moment from "moment";
+
+  export default {
+    name: "bankCardMenu",
+    data() {
+      return {
+        dialogTableVisible: false,
+        mobile: '',
+        cardNo:'',
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+        rows: [],
+        rowData: {}
+      }
+    },
+    methods: {
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getData();
+      },
+      handleSizeChange(val) {
+        this.pageSize = val;
+        this.getData();
+      },
+      //获取列表
+      getData() {
+        let url = '/user/bank/card/getList?_index=' + ((this.currentPage - 1) * this.pageSize) + '&_size=' + this.pageSize;
+        if (this.mobile !== '') {
+          url = url + "&mobile=" + this.mobile;
+        }
+        if (this.cardNo !== '') {
+          url = url + "&cardNo=" + this.cardNo;
+        }
+        axios.get(url,
+          qs.stringify({})).then((response) => {
+          this.rows = response.data.rows;
+          this.total = response.data.total;
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+
+      getCurrentDateTime(date) {
+        return moment(date).format('YYYY-MM-DD HH:mm:ss')
+      },
+      dialogClose() {
+        this.$emit('leftMenuStatus', true);
+      },
+      successClose(data) {
+        this.dialogTableVisible = false;
+        if (data != "cancel") {
+          this.editData(data);
+        }
+      },
+      getCurrentDateTime(date) {
+        return moment(date).format('YYYY-MM-DD HH:mm:ss')
+      },
+    },
+    mounted() {
+      this.getData();
+    },
+  }
 </script>
 
 <style scoped>
