@@ -91,6 +91,15 @@
                 component: '/authorization/userRole/menu'
               }]
           },
+          {
+            title: '用户信息',
+            icon: "",
+            subMenus: [{
+              title: '权限管理',
+              icon: "",
+              component: '/authorization/permission/menu'
+            }]
+          }
         ],
         msg: 'Copyright © 2018 十二',
         openMenus: ['首页'], // 记录打开了的菜单名称，用于寻找第几个菜单
