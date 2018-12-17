@@ -2,36 +2,47 @@
 
   <div style="padding: 20px;">
     <el-table
-      :data="loginLogList"
+      :data="rows"
       style="width: 100%">
       <el-table-column
-        label="记录id">
+        label="Id">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="登录账号">
+        label="角色">
         <template slot-scope="scope">
-          <span>{{scope.row.account}}</span>
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="登录人姓名">
+      <el-table-column label="操作" min-width="171">
         <template slot-scope="scope">
-          <span>{{ scope.row.user_name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="登录地址">
-        <template slot-scope="scope">
-          <span>{{scope.row.login_ip}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="登录时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.login_time}}</span>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleEdit(scope.row)"><i class="el-icon-edit"></i>编辑
+          </el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i>删除
+          </el-button>
+          <el-button
+            size="mini"
+            type="success"
+            @click="handleAddPermission(scope.row.id,scope.row.sort,0)"><i class="el-icon-edit"></i>编辑权限
+          </el-button>
+          <el-button
+            size="mini"
+            type="success"
+            @click="handleAddUser(scope.row.id,scope.row.sort,1)"><i class="el-icon-edit"></i>添加用户
+          </el-button>
+          <el-button
+            size="mini"
+            type="warning"
+            @click="handleDeleteUser(scope.row.id,scope.row.sort,2)"><i class="el-icon-delete"></i>删除用户
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,8 +60,10 @@
 
 </template>
 <script>
-  import axios from 'axios';
+  import axios from 'axios'
+  import qs from 'qs';
   import moment from "moment";
+
   export default {
     name: "role",
     data() {
@@ -58,7 +71,7 @@
         total: 0,
         currentPage: 1,
         pageSize: 10,
-        loginLogList: []
+        rows: []
       };
     },
     components: {},
@@ -73,25 +86,13 @@
       },
       getRecordData() {
         // 会自动判断当前是开发还是生产环境，然后自动匹配API_HOST
-        let urlHost = process.env.API_HOST + 'login/record?page=' + this.currentPage + '&size=' + this.pageSize;
-        axios.get(urlHost)
-          .then((res) => {
-            let testData = [];
-            let loginRecord = res.data.data.loginData;
-            for (let i = 0; i < loginRecord.length; i++) {
-              let dataObj = {
-                'id': loginRecord[i].id,
-                'account': loginRecord[i].uid,
-                'user_name': loginRecord[i].realName,
-                'login_ip': loginRecord[i].loginAdress.address,
-                'login_time': this.getCurrentDateTime(loginRecord[i].loginTime)
-              };
-              testData.push(dataObj);
-            }
-            this.loginLogList = testData;
-            this.total = res.data.data.total;
-          }).catch(error => {
-          alert(error.toString());
+        let url = process.env.API_HOST + 'basic/role/getList?page=' + this.currentPage + '&size=' + this.pageSize;
+        axios.get(url,
+          qs.stringify({})).then((response) => {
+          this.rows = response.data.rows;
+          this.total = response.data.total;
+        }).catch((error) => {
+          console.log(error);
         });
       },
       getCurrentDateTime(date) {
