@@ -71,7 +71,7 @@
     <!-- 中部结束 -->
     <!-- 底部开始 -->
     <div class="footer">
-      <div class="copyright">{{msg}}</div>  
+      <div class="copyright">{{msg}}</div>
     </div>
   </div>
 </template>
@@ -106,7 +106,7 @@ export default {
           subMenus:[{title:'登录日志',component:loginLog},{title:'操作日志',component:userLog}]
         }
       ],
-      msg: 'Copyright © 2018 勤奋的懒人',
+      msg: 'Copyright © 2018 十二',
       currentView: welcome,  // 当前菜单对应的组件
       openMenus: ['首页'], // 记录打开了的菜单名称，用于寻找第几个菜单
       menus: [{key: true, component: welcome, menuTitle: '首页'}], // 打开了的菜单
