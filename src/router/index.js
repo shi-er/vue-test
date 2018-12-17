@@ -6,7 +6,7 @@ import customList from '../components/customList'
 import permission from '../components/authorization/permission/permission';
 import permissionMenu from '../components/authorization/permission/permissionMenu';
 import permissionRole from '../components/authorization/rolePermission/roleMenu';
-import permissionUser from '../components/authorization/userRole/user';
+import permissionUser from '../components/authorization/userRole/userMenu';
 
 Vue.use(Router)
 

@@ -3,17 +3,17 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true">
-        <el-form-item>
-          <el-input placeholder="权限code" v-model="permCode"/>
+        <el-form-item style="float: right">
+          <el-button type="primary" @click="getData" icon="el-icon-search">查询</el-button>
         </el-form-item>
-        <el-form-item>
+        <el-form-item style="float: right">
           <el-select v-model="type" placeholder="请选择类型">
             <el-option label="菜单" value="0"></el-option>
             <el-option label="功能" value="1"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="getData" icon="el-icon-search">查询</el-button>
+        <el-form-item style="float: right">
+          <el-input placeholder="权限code" v-model="permCode"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" v-on:click="addNewProject({})" icon="el-icon-plus">添加</el-button>
