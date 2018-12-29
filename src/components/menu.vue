@@ -71,50 +71,51 @@
     data() {
       return {
         leftMenuStatu: true,
-        leftMenus: [
-          {
-            title: '基础信息',
-            icon: "",
-            subMenus: [{
-              title: '权限管理',
-              icon: "",
-              component: '/menu/authorization/permission/menu'
-            },
-              {
-                title: '角色管理',
-                icon: "",
-                component: '/menu/authorization/rolePermission/menu'
-              },
-              {
-                title: '用户角色',
-                icon: "",
-                component: '/menu/authorization/userRole/menu'
-              }]
-          },
-          {
-            title: '用户中心',
-            icon: "",
-            subMenus: [{
-              title: '用户管理',
-              icon: "",
-              component: '/menu/userCenter/userInfo/menu'
-            }, {
-              title: '登录记录',
-              icon: "",
-              component: '/menu/userCenter/login/menu'
-            }, {
-              title: '银行卡',
-              icon: "",
-              component: '/menu/userCenter/bankCard/menu'
-            }]
-          }
-        ],
+        leftMenus: [],
         msg: 'Copyright © 2018 十二',
         openMenus: ['首页'], // 记录打开了的菜单名称，用于寻找第几个菜单
       }
     },
     components: {},
-    methods: {}
+    methods: {},
+    mounted() {
+      this.leftMenus=[{
+        title: '基础信息',
+        icon: "",
+        subMenus: [{
+          title: '权限管理',
+          icon: "",
+          component: '/menu/authorization/permission/menu'
+        },
+          {
+            title: '角色管理',
+            icon: "",
+            component: '/menu/authorization/rolePermission/menu'
+          },
+          {
+            title: '用户角色',
+            icon: "",
+            component: '/menu/authorization/userRole/menu'
+          }]
+      },
+        {
+          title: '用户中心',
+          icon: "",
+          subMenus: [{
+            title: '用户管理',
+            icon: "",
+            component: '/menu/userCenter/userInfo/menu'
+          }, {
+            title: '登录记录',
+            icon: "",
+            component: '/menu/userCenter/login/menu'
+          }, {
+            title: '银行卡',
+            icon: "",
+            component: '/menu/userCenter/bankCard/menu'
+          }]
+        }]
+    }
   }
 </script>
 
