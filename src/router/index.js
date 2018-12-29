@@ -10,6 +10,7 @@ import bankCardMenu from '../components/userCenter/bankCard/bankCardMenu';
 import userInfoMenu from '../components/userCenter/user/userInfoMenu';
 import loginMenu from '../components/userCenter/userLogin/loginMenu';
 import login from '../components/login';
+import dashboard from '../components/dashboard';
 
 
 Vue.use(Router);
@@ -26,6 +27,10 @@ export default new Router({
       path: '/menu',
       component: menu,
       children: [
+        {
+          path: '/menu/dashboard',
+          component: dashboard
+        },
         {
           path: '/menu/authorization/permission/menu',
           component: permissionMenu
@@ -49,11 +54,10 @@ export default new Router({
         {
           path: '/menu/userCenter/login/menu',
           component: loginMenu
+        }, {
+          path: '',
+          redirect: '/menu/dashboard'
         }
-        // , {
-        //   path: '',
-        //   redirect: '/authorization/menu'
-        // }
       ]
     },
     {
