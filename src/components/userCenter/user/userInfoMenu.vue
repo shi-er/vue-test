@@ -125,7 +125,7 @@
       },
       //获取列表
       getData() {
-        let url = '/user/base/getList?_index=' + ((this.currentPage - 1) * this.pageSize) + '&_size=' + this.pageSize;
+        let url = process.env.API_HOST +'/user/base/getList?_index=' + ((this.currentPage - 1) * this.pageSize) + '&_size=' + this.pageSize;
         if (this.mobile !== '') {
           url = url + "&mobile=" + this.mobile;
         }

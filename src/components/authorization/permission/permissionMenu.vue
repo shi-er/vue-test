@@ -170,7 +170,7 @@
       },
       //获取列表
       getData() {
-        let url = '/basic/permission/list?_index=' + ((this.currentPage - 1) * this.pageSize) + '&_size=' + this.pageSize;
+        let url = process.env.API_HOST +'/basic/permission/list?_index=' + ((this.currentPage - 1) * this.pageSize) + '&_size=' + this.pageSize;
         if (this.permCode !== '') {
           url = url + "&permCode=" + this.permCode;
         }
@@ -187,7 +187,7 @@
       },
       //编辑
       editData(data) {
-        let url = '/basic/permission/update';
+        let url = process.env.API_HOST +'/basic/permission/update';
         axios.post(url,
           qs.stringify({
             id: data.id,
@@ -229,7 +229,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.delete('/basic/permission/pids?id=' + id,
+          axios.delete(process.env.API_HOST +'/basic/permission/pids?id=' + id,
             qs.stringify({})).then((response) => {
             if (response.data == true) {
               this.$message({
@@ -255,7 +255,7 @@
         });
       },
       handleSetSort(id, sort, status) {
-        axios.put('/basic/permission/sort',
+        axios.put(process.env.API_HOST +'/basic/permission/sort',
           qs.stringify({
             id: id,
             sort: sort,

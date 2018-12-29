@@ -59,7 +59,7 @@
               username: this.ruleForm2.account,
               password: this.ruleForm2.checkPass
             };
-            axios.post('/login',
+            axios.post(process.env.API_HOST +'/login',
               qs.stringify({
                 mobile: this.ruleForm2.account,
                 pwd: this.ruleForm2.checkPass,

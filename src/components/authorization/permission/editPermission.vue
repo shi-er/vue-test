@@ -73,7 +73,7 @@
         this.$emit('closeDialog', 'cancel');
       },
       getIcons() {
-        let url = '/basic/permission/icons';
+        let url = process.env.API_HOST +'/basic/permission/icons';
         axios.get(url,
           qs.stringify({})).then((response) => {
           this.icons = response.data;
@@ -82,7 +82,7 @@
         });
       },
       getPids() {
-        let url = '/basic/permission/pids';
+        let url = process.env.API_HOST +'/basic/permission/pids';
         axios.get(url,
           qs.stringify({})).then((response) => {
           this.pids = response.data;
