@@ -67,7 +67,7 @@
               if (response.data.code === 0) {
                 _this.logining = false;
                 sessionStorage.setItem('user', JSON.stringify(loginParams));
-                _this.$router.push({path: '/permission'});
+                _this.$router.push({path: '/menu'});
               } else {
                 _this.logining = false;
                 _this.$alert(response.data.msg, '提示信息', {

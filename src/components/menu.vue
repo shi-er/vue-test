@@ -11,7 +11,7 @@
           <dl class="layui-nav-child"> <!-- 二级菜单 -->
             <dd><a class="hrefCss" onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
             <dd><a class="hrefCss" onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-            <dd><a href="..">退出</a></dd>
+            <dd><a href="authorization">退出</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
@@ -78,17 +78,17 @@
             subMenus: [{
               title: '权限管理',
               icon: "",
-              component: '/authorization/permission/menu'
+              component: '/menu/authorization/permission/menu'
             },
               {
                 title: '角色管理',
                 icon: "",
-                component: '/authorization/rolePermission/menu'
+                component: '/menu/authorization/rolePermission/menu'
               },
               {
                 title: '用户角色',
                 icon: "",
-                component: '/authorization/userRole/menu'
+                component: '/menu/authorization/userRole/menu'
               }]
           },
           {
@@ -97,15 +97,15 @@
             subMenus: [{
               title: '用户管理',
               icon: "",
-              component: '/userCenter/userInfo/menu'
+              component: '/menu/userCenter/userInfo/menu'
             }, {
               title: '登录记录',
               icon: "",
-              component: '/userCenter/login/menu'
+              component: '/menu/userCenter/login/menu'
             }, {
               title: '银行卡',
               icon: "",
-              component: '/userCenter/bankCard/menu'
+              component: '/menu/userCenter/bankCard/menu'
             }]
           }
         ],
