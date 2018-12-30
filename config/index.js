@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://api.liyunbiao.com/', // 设置你调用的接口域名
+        target: 'http://admin.liyunbiao.com/api/', // 设置你调用的接口域名
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '^/api': '/'      // 这里可以理解为用‘/api’来代替target里面的地址，例如我们调用http://jspang.com/DemoApi/oftenGoods.php，直接写成‘/api/DemoApi/oftenGoods.php’就可以了
