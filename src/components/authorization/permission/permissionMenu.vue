@@ -119,8 +119,8 @@
         :total="total">
       </el-pagination>
     </el-col>
-    <el-dialog title="项目信息" :visible.sync="dialogTableVisible" @close="dialogClose" :modal-append-to-body="false"
-               :width="'80%'">
+    <el-dialog title="编辑权限" :visible.sync="dialogTableVisible" @close="dialogClose" :modal-append-to-body="false"
+               :width="'65%'">
       <editPermission @closeDialog="successClose" :rowData="rowData"></editPermission>
     </el-dialog>
   </div>

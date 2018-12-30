@@ -59,6 +59,10 @@
         :total="total">
       </el-pagination>
     </el-col>
+    <el-dialog title="编辑角色" :visible.sync="dialogTableVisible" @close="dialogClose" :modal-append-to-body="false"
+               :width="'60%'">
+      <editRole @closeDialog="successClose" :rowData="rowData"></editRole>
+    </el-dialog>
   </div>
 
 </template>
@@ -66,18 +70,23 @@
   import axios from 'axios'
   import qs from 'qs';
   import moment from "moment";
+  import editRole from './editRole'
 
   export default {
     name: "role",
     data() {
       return {
+        dialogTableVisible: false,
         total: 0,
         currentPage: 1,
         pageSize: 10,
-        rows: []
+        rows: [],
+        rowData: {}
       };
     },
-    components: {},
+    components: {
+      editRole
+    },
     methods: {
       handleCurrentChange(val) {
         this.currentPage = val;
@@ -102,8 +111,11 @@
         return moment(date).format('YYYY-MM-DD HH:mm:ss')
       },
       //角色编辑
-      handleEdit(data) {
-
+      handleEdit(rowData) {
+        this.rowData = rowData;
+        this.dialogTableVisible = true;
+        // this.$store.state.leftNav = false;
+        this.$emit('leftMenuStatus', false);
       },
       //编辑权限
       handleEditPermission(id) {
@@ -116,6 +128,16 @@
       //删除角色
       handleDelete(id) {
 
+      },
+      dialogClose() {
+        // this.$store.state.leftNav = true;
+        this.$emit('leftMenuStatus', true);
+      },
+      successClose(data) {
+        this.dialogTableVisible = false;
+        if (data != "cancel") {
+          this.editData(data);
+        }
       }
     },
     created() {
