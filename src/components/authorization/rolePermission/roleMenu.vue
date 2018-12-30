@@ -24,6 +24,12 @@
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        label="描述">
+        <template slot-scope="scope">
+          <span>{{scope.row.description}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" min-width="171">
         <template slot-scope="scope">
           <el-button
@@ -34,7 +40,7 @@
           <el-button
             size="mini"
             type="success"
-            @click="handleEditPermission(scope.row.id)"><i class="el-icon-edit"></i>编辑权限
+            @click="handleEditPermission(scope.row.id)"><i class="el-icon-plus"></i>编辑权限
           </el-button>
           <el-button
             size="mini"
@@ -81,7 +87,12 @@
         currentPage: 1,
         pageSize: 10,
         rows: [],
-        rowData: {}
+        rowData: {
+          id: null,
+          name: null,
+          sort: null,
+          description: null
+        }
       };
     },
     components: {
@@ -109,6 +120,34 @@
       },
       getCurrentDateTime(date) {
         return moment(date).format('YYYY-MM-DD HH:mm:ss')
+      },
+      //编辑
+      editData(data) {
+        let url = process.env.API_HOST + 'basic/role/update';
+        axios.post(url,
+          qs.stringify({
+            id: data.id,
+            name: data.name,
+            description: data.description
+          })).then((response) => {
+          if (response.data == true) {
+            this.$message({
+              type: 'success',
+              message: '编辑成功'
+            });
+            this.getRecordData();
+          } else {
+            this.$message({
+              type: 'info',
+              message: '编辑失败'
+            });
+          }
+        }).catch((error) => {
+          this.$message({
+            type: 'info',
+            message: error
+          });
+        });
       },
       //角色编辑
       handleEdit(rowData) {

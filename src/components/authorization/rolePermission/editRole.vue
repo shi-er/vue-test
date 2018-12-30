@@ -18,8 +18,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  import qs from 'qs';
 
   export default {
     name: "project-info",
@@ -28,8 +26,6 @@
     },
     data() {
       return {
-        icons: [],
-        pids: [],
         form: {},
       };
     },
@@ -41,28 +37,8 @@
       cancleDialog() {
         this.$emit('closeDialog', 'cancel');
       },
-      getIcons() {
-        let url = process.env.API_HOST +'/basic/permission/icons';
-        axios.get(url,
-          qs.stringify({})).then((response) => {
-          this.icons = response.data;
-        }).catch((error) => {
-          console.log(error);
-        });
-      },
-      getPids() {
-        let url = process.env.API_HOST +'/basic/permission/pids';
-        axios.get(url,
-          qs.stringify({})).then((response) => {
-          this.pids = response.data;
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
     },
     created() {
-      this.getIcons();
-      this.getPids();
     },
   }
 
