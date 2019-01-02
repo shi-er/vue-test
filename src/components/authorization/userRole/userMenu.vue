@@ -96,6 +96,9 @@
       },
       getData() {
         let url = process.env.API_HOST + 'basic/role/user/getList?page=' + this.currentPage + '&size=' + this.pageSize;
+        if (this.mobile !== '' && this.mobile.length === 11) {
+          url = url + '&mobile=' + this.mobile;
+        }
         axios.get(url,
           qs.stringify({})).then((response) => {
           this.rows = response.data.rows;
