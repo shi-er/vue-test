@@ -47,11 +47,11 @@
             type="success"
             @click="handleEditUser(scope.row.id)"><i class="el-icon-edit"></i>编辑用户
           </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i>删除
-          </el-button>
+          <!--<el-button-->
+          <!--size="mini"-->
+          <!--type="danger"-->
+          <!--@click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i>删除-->
+          <!--</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -185,7 +185,35 @@
       },
       //删除角色
       handleDelete(id) {
-
+        this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let url = process.env.API_HOST + 'basic/role/delete?id=' + id;
+          axios.put(url,
+            qs.stringify({})).then((response) => {
+            if (response.data === true) {
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              });
+              this.getRecordData();
+            } else {
+              this.$message({
+                type: 'info',
+                message: '删除失败'
+              });
+            }
+          }).catch((error) => {
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       dialogClose() {
         // this.$store.state.leftNav = true;
