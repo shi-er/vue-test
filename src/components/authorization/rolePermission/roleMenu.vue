@@ -40,7 +40,7 @@
           <el-button
             size="mini"
             type="success"
-            @click="handleEditPermission(scope.row.id)"><i class="el-icon-plus"></i>编辑权限
+            @click="handleEditRolePermission(scope.row.id)"><i class="el-icon-plus"></i>编辑权限
           </el-button>
           <el-button
             size="mini"
@@ -69,6 +69,14 @@
                :width="'60%'">
       <editRole @closeDialog="successClose" :rowData="rowData"></editRole>
     </el-dialog>
+    <el-dialog title="编辑权限" :visible.sync="roleTableVisible" @close="dialogClose" :modal-append-to-body="false"
+               :width="'60%'">
+      <editRolePermission @closeDialog="successClose" :rowId="rowId"></editRolePermission>
+    </el-dialog>
+    <el-dialog title="管理用户" :visible.sync="userTableVisible" @close="dialogClose" :modal-append-to-body="false"
+               :width="'60%'">
+      <editUserRole @closeDialog="successClose" :rowId="rowId"></editUserRole>
+    </el-dialog>
   </div>
 
 </template>
@@ -76,17 +84,22 @@
   import axios from 'axios'
   import qs from 'qs';
   import moment from "moment";
-  import editRole from './editRole'
+  import editRole from './editRole';
+  import editRolePermission from './editRolePermission';
+  import editUserRole from './editUserRole';
 
   export default {
     name: "role",
     data() {
       return {
         dialogTableVisible: false,
+        roleTableVisible: false,
+        userTableVisible: false,
         total: 0,
         currentPage: 1,
         pageSize: 10,
         rows: [],
+        rowId: null,
         rowData: {
           id: null,
           name: null,
@@ -96,7 +109,9 @@
       };
     },
     components: {
-      editRole
+      editRole,
+      editRolePermission,
+      editUserRole
     },
     methods: {
       handleCurrentChange(val) {
@@ -157,12 +172,16 @@
         this.$emit('leftMenuStatus', false);
       },
       //编辑权限
-      handleEditPermission(id) {
-
+      handleEditRolePermission(id) {
+        this.rowId = id;
+        this.roleTableVisible = true;
+        this.$emit('leftMenuStatus', false);
       },
       //用户编辑
       handleEditUser(id) {
-
+        this.rowId = id;
+        this.userTableVisible = true;
+        this.$emit('leftMenuStatus', false);
       },
       //删除角色
       handleDelete(id) {
