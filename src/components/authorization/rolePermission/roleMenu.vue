@@ -73,7 +73,7 @@
                :width="'65%'">
       <editRolePermission @closeDialog="successClosePermission" :rowId="rowId"></editRolePermission>
     </el-dialog>
-    <el-dialog title="管理用户" :visible.sync="userTableVisible" @close="dialogClose" :modal-append-to-body="false"
+    <el-dialog title="添加用户" :visible.sync="userTableVisible" @close="dialogClose" :modal-append-to-body="false"
                :width="'50%'">
       <editUserRole @closeDialog="successCloseUser" :rowId="rowId"></editUserRole>
     </el-dialog>
@@ -198,10 +198,10 @@
         }
       },
       successClosePermission() {
-        this.dialogTableVisible = false;
+        this.roleTableVisible = false;
       },
       successCloseUser() {
-        this.dialogTableVisible = false;
+        this.userTableVisible = false;
       }
     },
     created() {
