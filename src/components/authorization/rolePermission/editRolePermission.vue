@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 20px;">
+  <div>
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true">
@@ -7,16 +7,7 @@
           <el-button type="primary" @click="getData" icon="el-icon-search">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-select v-model="type" placeholder="请选择类型">
-            <el-option label="菜单" value="0"></el-option>
-            <el-option label="功能" value="1"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item style="float: right">
           <el-input placeholder="权限code" v-model="permCode"/>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" v-on:click="addNewProject({})" icon="el-icon-plus">添加</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -36,6 +27,18 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="描述">
+        <template slot-scope="scope">
+          <span>{{scope.row.description}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="权限code">
+        <template slot-scope="scope">
+          <span>{{scope.row.permcode}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="类型">
         <template slot-scope="scope">
           <span v-if="scope.row.type===0">菜单</span>
@@ -50,34 +53,22 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="地址">
+        label="父类">
         <template slot-scope="scope">
-          <span>{{scope.row.url}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="权限code">
-        <template slot-scope="scope">
-          <span>{{scope.row.permcode}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="描述">
-        <template slot-scope="scope">
-          <span>{{scope.row.description}}</span>
+          <span>{{scope.row.parentName}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" min-width="171">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="addNewProject(scope.row)"><i class="el-icon-edit"></i>编辑
+          <el-button v-if="scope.row.status===1"
+                     size="mini"
+                     type="danger"
+                     @click="editRolePs(scope.row.id,0)"><i class="el-icon-edit"></i>取消
           </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i>删除
+          <el-button v-if="scope.row.status===0"
+                     size="mini"
+                     type="primary"
+                     @click="editRolePs(scope.row.id,1)"><i class="el-icon-edit"></i>开通
           </el-button>
         </template>
       </el-table-column>
@@ -95,6 +86,8 @@
   </div>
 </template>
 <script>
+  import axios from 'axios';
+  import qs from 'qs';
 
   export default {
     name: "editRolePermission",
@@ -103,19 +96,69 @@
     },
     data() {
       return {
-        form: {},
+        permCode: '',
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+        rows: [],
       };
     },
     methods: {
-      handleSubmit(data) {
-        // 提交数据
-        this.$emit('closeDialog', JSON.parse(JSON.stringify(this.rowData)));
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getData();
+      },
+      handleSizeChange(val) {
+        this.pageSize = val;
+        this.getData();
+      },
+      //获取列表
+      getData() {
+        let url = process.env.API_HOST + 'basic/role/permission/getList?rid=' + this.rowId + '&_index=' + ((this.currentPage - 1) * this.pageSize) + '&_size=' + this.pageSize;
+        if (this.permCode !== '') {
+          url = url + "&permCode=" + this.permCode;
+        }
+        axios.get(url,
+          qs.stringify({})).then((response) => {
+          this.rows = response.data.rows;
+          this.total = response.data.total;
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+      editRolePs(id, status) {
+        let url = process.env.API_HOST + 'basic/role/permission/update';
+        axios.put(url,
+          qs.stringify({
+            id: id,
+            status: status,
+            rid: this.rowId
+          })).then((response) => {
+          if (response.data === true) {
+            this.$message({
+              type: 'success',
+              message: '配置成功'
+            });
+            this.getData();
+          } else {
+            this.$message({
+              type: 'info',
+              message: '配置失败'
+            });
+          }
+        }).catch((error) => {
+          this.$message({
+            type: 'info',
+            message: error
+          });
+        });
       },
       cancleDialog() {
         this.$emit('closeDialog', 'cancel');
       },
     },
-    created() {
+    mounted() {
+      this.getData();
     },
   }
 </script>
