@@ -65,6 +65,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import qs from 'qs';
 
   export default {
     name: 'permission',
@@ -77,9 +79,21 @@
       }
     },
     components: {},
-    methods: {},
+    methods: {
+      getMenus() {
+        let url = process.env.API_HOST + 'basic/permission/data';
+        axios.get(url,
+          qs.stringify({})).then((response) => {
+          if (response.data.code !== 0 || response.data.data.length <= 0) {
+            this.$router.push({path: '/login'});
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+    },
     mounted() {
-      this.leftMenus=[{
+      this.leftMenus = [{
         title: '基础信息',
         icon: "",
         subMenus: [{
@@ -114,7 +128,8 @@
             icon: "",
             component: '/menu/userCenter/bankCard/menu'
           }]
-        }]
+        }];
+      this.getMenus();
     }
   }
 </script>
