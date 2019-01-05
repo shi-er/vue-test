@@ -84,7 +84,7 @@
         let url = process.env.API_HOST + 'basic/permission/data';
         axios.get(url,
           qs.stringify({})).then((response) => {
-          if (response.data.code !== 0 || response.data.data.length <= 0) {
+          if (response.data.code !== 0) {
             this.$router.push({path: '/login'});
           }
         }).catch((error) => {

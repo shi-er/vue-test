@@ -51,26 +51,25 @@
     },
     methods: {
       handleSubmit2(ev) {
-        var _this = this;
-        _this.$refs.ruleForm2.validate((valid) => {
+        this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
-            _this.logining = true;
+            this.logining = true;
             var loginParams = {
               username: this.ruleForm2.account,
               password: this.ruleForm2.checkPass
             };
-            axios.post(process.env.API_HOST +'/login',
+            axios.post(process.env.API_HOST + '/login',
               qs.stringify({
                 mobile: this.ruleForm2.account,
                 pwd: this.ruleForm2.checkPass,
               })).then(function (response) {
               if (response.data.code === 0) {
-                _this.logining = false;
+                this.logining = false;
                 sessionStorage.setItem('user', JSON.stringify(loginParams));
-                _this.$router.push({path: '/menu'});
+                this.$router.push({path: '/menu'});
               } else {
-                _this.logining = false;
-                _this.$alert(response.data.msg, '提示信息', {
+                this.logining = false;
+                this.$alert(response.data.msg, '提示信息', {
                   confirmButtonText: '确定'
                 });
               }
@@ -82,7 +81,20 @@
             return false;
           }
         });
-      }
+      },
+      getMenus() {
+        let url = process.env.API_HOST + 'basic/permission/data';
+        axios.get(url,
+          qs.stringify({})).then((response) => {
+          if (response.data.code === 0) {
+            this.$router.push({path: '/menu'});
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+    }, mounted() {
+      this.getMenus();
     }
   }
 </script>
